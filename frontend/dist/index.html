@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>recast</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="gl-field" id="field" aria-hidden="true"><canvas></canvas></div>
+
+  <aside class="side">
+    <div class="logo"><span class="logo-mark">&gt;&gt;</span><span class="logo-word">recast</span></div>
+    <nav class="nav" id="nav">
+      <!-- data-short: the glyph shown when a narrow window hides the labels -->
+      <button class="gl-nav-item" data-page="convert"><span class="gl-nav-glyph" data-short="~"></span><span class="gl-nav-label" data-t="navConvert"></span></button>
+      <button class="gl-nav-item" data-page="settings"><span class="gl-nav-glyph" data-short="#"></span><span class="gl-nav-label" data-t="navSettings"></span></button>
+    </nav>
+    <div class="side-foot" id="ff-status"></div>
+  </aside>
+
+  <div class="main">
+    <header class="bar">
+      <button class="win-btn" id="btn-min" aria-label="minimise">_</button>
+      <button class="win-btn" id="btn-max" aria-label="maximise">□</button>
+      <button class="win-btn" id="btn-close" aria-label="close">x</button>
+    </header>
+
+    <!-- Convert -->
+    <section class="page" id="page-convert">
+      <div class="convert">
+        <div class="queue-col">
+          <div class="queue-head">
+            <h2 class="gl-section"><span data-t="queue"></span> <span class="count" id="q-count"></span></h2>
+            <div class="queue-tools">
+              <button class="gl-btn gl-btn-ghost gl-btn-sm" id="btn-add"><span data-t="addFiles"></span></button>
+              <button class="gl-btn gl-btn-ghost gl-btn-sm" id="btn-clear-done"><span data-t="clearDone"></span></button>
+              <button class="gl-btn gl-btn-ghost gl-btn-sm" id="btn-clear"><span data-t="clearAll"></span></button>
+            </div>
+          </div>
+          <div class="queue scroll" id="queue"></div>
+          <div class="drop" id="drop">
+            <div class="drop-box">
+              <div class="drop-glyph" aria-hidden="true">↓</div>
+              <div class="drop-title" data-t="dropTitle"></div>
+              <div class="drop-sub" data-t="dropSub"></div>
+              <button class="gl-btn gl-btn-secondary" id="btn-pick"><span data-t="pickFiles"></span></button>
+            </div>
+          </div>
+          <div class="drop-veil" aria-hidden="true"><span data-t="dropHere"></span></div>
+        </div>
+
+        <div class="panel scroll" id="panel">
+          <div class="pblock">
+            <div class="gl-section" data-t="format"></div>
+            <div class="seg small" id="kind">
+              <button data-value="video" data-t="kindVideo"></button>
+              <button data-value="audio" data-t="kindAudio"></button>
+              <button data-value="image" data-t="kindImage"></button>
+            </div>
+            <div class="chips" id="formats"></div>
+          </div>
+
+          <div class="pblock" id="b-codec">
+            <div class="gl-section" data-t="codec"></div>
+            <div class="seg small" id="codec"></div>
+          </div>
+
+          <div class="pblock" id="b-quality">
+            <div class="gl-section" data-t="quality"></div>
+            <div class="seg small" id="quality">
+              <button data-value="high" data-t="qHigh"></button>
+              <button data-value="mid" data-t="qMid"></button>
+              <button data-value="low" data-t="qLow"></button>
+            </div>
+          </div>
+
+          <div class="pblock" id="b-res">
+            <div class="gl-section" data-t="res"></div>
+            <div class="seg small" id="res">
+              <button data-value="0" data-t="resOrig"></button>
+              <button data-value="2160">4K</button>
+              <button data-value="1080">1080</button>
+              <button data-value="720">720</button>
+              <button data-value="480">480</button>
+            </div>
+          </div>
+
+          <label class="pblock prow" id="b-hw">
+            <span class="prow-text"><span class="prow-name" data-t="gpu"></span><span class="prow-desc" id="hw-name"></span></span>
+            <input type="checkbox" class="switch" id="hw">
+          </label>
+
+          <div class="pblock">
+            <div class="gl-section" data-t="output"></div>
+            <div class="seg small" id="outmode">
+              <button data-value="same" data-t="outSame"></button>
+              <button data-value="dir" data-t="outDir"></button>
+            </div>
+            <button class="path" id="outdir"><span class="path-glyph" aria-hidden="true">/</span><span class="path-text" id="outdir-text"></span></button>
+          </div>
+
+          <button class="more" id="btn-custom"><span class="more-glyph" aria-hidden="true"></span><span class="more-label" data-t="custom"></span></button>
+          <div class="custom" id="custom">
+            <div class="cfield">
+              <label for="c-ext" data-t="customExt"></label>
+              <input id="c-ext" spellcheck="false" autocomplete="off" placeholder="mxf">
+            </div>
+            <div class="cfield">
+              <label for="c-args" data-t="customArgs"></label>
+              <textarea id="c-args" rows="3" spellcheck="false" placeholder="-c:v libx264 -crf 20 -c:a copy"></textarea>
+            </div>
+            <div class="hint" data-t="customHint"></div>
+          </div>
+
+          <div class="go">
+            <button class="gl-btn gl-btn-primary go-btn" id="btn-go"></button>
+            <div class="go-note" id="go-note"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section class="page scroll" id="page-settings">
+      <h1 data-t="navSettings"></h1>
+      <div class="gl-section" data-t="secLook"></div>
+      <div class="card rows">
+        <div class="set-row">
+          <div class="set-text"><div class="set-name" data-t="language"></div></div>
+          <div class="seg compact" id="set-lang">
+            <button data-value="ru">Русский</button>
+            <button data-value="en">English</button>
+          </div>
+        </div>
+        <div class="set-row">
+          <div class="set-text"><div class="set-name" data-t="theme"></div></div>
+          <div class="seg compact" id="set-theme">
+            <button data-value="system" data-t="themeSystem"></button>
+            <button data-value="light" data-t="themeLight"></button>
+            <button data-value="dark" data-t="themeDark"></button>
+          </div>
+        </div>
+        <div class="set-row">
+          <div class="set-text"><div class="set-name" data-t="accent"></div></div>
+          <div class="swatches" id="set-accent"></div>
+        </div>
+      </div>
+
+      <div class="gl-section" data-t="secWork"></div>
+      <div class="card rows">
+        <div class="set-row">
+          <div class="set-text"><div class="set-name" data-t="parallel"></div><div class="set-desc" data-t="parallelDesc"></div></div>
+          <div class="seg compact" id="set-parallel">
+            <button data-value="1">1</button>
+            <button data-value="2">2</button>
+            <button data-value="3">3</button>
+            <button data-value="4">4</button>
+          </div>
+        </div>
+        <label class="set-row">
+          <div class="set-text"><div class="set-name" data-t="lowPrio"></div><div class="set-desc" data-t="lowPrioDesc"></div></div>
+          <input type="checkbox" class="switch" id="set-lowprio">
+        </label>
+        <label class="set-row">
+          <div class="set-text"><div class="set-name" data-t="overwrite"></div><div class="set-desc" data-t="overwriteDesc"></div></div>
+          <input type="checkbox" class="switch" id="set-overwrite">
+        </label>
+      </div>
+
+      <div class="gl-section">ffmpeg</div>
+      <div class="card rows">
+        <div class="set-row">
+          <div class="set-text">
+            <div class="set-name" id="ff-version"></div>
+            <div class="set-desc ff-path" id="ff-path"></div>
+          </div>
+          <div class="row-btns">
+            <button class="gl-btn gl-btn-ghost gl-btn-sm" id="ff-pick"><span data-t="ffPick"></span></button>
+            <button class="gl-btn gl-btn-ghost gl-btn-sm" id="ff-auto"><span data-t="ffAuto"></span></button>
+          </div>
+        </div>
+      </div>
+      <div class="version" id="version"></div>
+    </section>
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="glyph-field.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

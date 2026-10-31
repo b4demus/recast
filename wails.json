@@ -1,0 +1,18 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "recast",
+  "outputfilename": "recast",
+  "frontend:dir": "frontend",
+  "frontend:install": "",
+  "frontend:build": "",
+  "author": {
+    "name": "b4demus"
+  },
+  "info": {
+    "companyName": "b4demus",
+    "productName": "recast",
+    "productVersion": "1.0.0",
+    "copyright": "",
+    "comments": "Media converter on ffmpeg"
+  }
+}

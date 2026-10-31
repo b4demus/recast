@@ -1,0 +1,23 @@
+# Local builds, release archives and portable application data
+/build/bin/
+/dist/
+/release/
+/data/
+*.exe
+*.syso
+*.test
+*.out
+
+# Generated Wails bindings
+/frontend/wailsjs/
+
+# Local editor and assistant settings
+/.claude/
+/.codex/
+/.vscode/
+/.idea/
+.env
+.env.*
+*.log
+Thumbs.db
+.DS_Store
